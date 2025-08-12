@@ -1,24 +1,19 @@
-extends CharacterBody2D
+[gd_scene load_steps=3 format=3]
 
-var speed = 200
-var jump_velocity = -500
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+[ext_resource type="Texture2D" path="res://assets/player.png" id="1"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="2"]
 
-func _physics_process(delta):
-	# Apply gravity
-	if not is_on_floor():
-		velocity.y += gravity * delta
+[node name="Player" type="Node2D"]
+script = ExtResource("2")
 
-	# Movement left/right
-	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction != 0:
-		velocity.x = direction * speed
-	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames")
+animation = "idle"
 
-	# Jump
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = jump_velocity
-
-	move_and_slide()
-
+[sub_resource type="SpriteFrames" id=1]
+animations = [{
+"frames": [ { "texture": ExtResource("1"), "region": Rect2(0, 0, 48, 48) } ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}]
